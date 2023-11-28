@@ -24,9 +24,9 @@
             in="blur"
             mode="matrix"
             values="1 0 0 0  0
-                                                                                     0 1 0 0  0
-                                                                                     0 0 1 0  0
-                                                                                     0 0 0 25 -15"
+                                                                                   0 1 0 0  0
+                                                                                   0 0 1 0  0
+                                                                                   0 0 0 25 -15"
             result="matrix"
           />
         </filter>
@@ -43,11 +43,17 @@
     </div>
     <div text-50px>
       if r is 100, then r^2*PI = A: {{ Math.pow(100, 2) * Math.PI }}<br />
+      if A is 31415.93, then r^2*PI = A -> sqr(A/PI) = r:
+      {{ Math.sqrt(31415.93 / Math.PI) }}<br />
+      so if A*2 is 31415.93*2=~61830, then r^2*PI = 2A -> sqr(2*A/PI) = r:
+      {{ Math.sqrt((2 * 31415.93) / Math.PI) }}
     </div>
   </div>
 </template>
 
 <script setup>
+import { diff } from "ohash";
+
 const { x, y } = useMouse();
 const difference = computed(() => Math.abs(y.value - 500));
 watch(x, () => {
@@ -55,7 +61,16 @@ watch(x, () => {
 });
 const fakedR = computed(() => {
   if (difference.value < 215) {
-    return 100 + 215 / 2 - difference.value / 2;
+    return (
+      100 +
+      useMap(
+        difference.value,
+        215,
+        0,
+        0,
+        Math.sqrt((2 * 31415.93) / Math.PI) - 100
+      )
+    );
   } else {
     return 100;
   }
