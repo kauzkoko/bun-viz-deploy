@@ -18,11 +18,11 @@
         transform: sideToggled
           ? `translate(0, ${1000}px)`
           : `translate(0, ${700}px)`,
-        background: step === 4 ? 'transparent' : 'rgba(255,255,0,0.5)',
-        border: step === 4 ? 'transparent' : '1px solid yellow',
+        background: step === 4 ? 'transparent' : 'yellow',
+        border: step === 4 ? 'transparent' : '5px solid yellow',
       }"
     >
-      <div v-show="sideToggled" text-20px>Switch side</div>
+      <div v-show="sideToggled">Switch side</div>
       <div v-show="!sideToggled && step !== 4" class="flexCenter flex-col p-3">
         <div v-if="step !== 3">
           <h1 text-50px>{{ info.amount }}</h1>
@@ -51,8 +51,7 @@
           class="absolute w-full aspect-1 rounded-full mt--100px flexCenter flex-col border-black border-solid border-1px animate__animated animate__zoomIn"
           :style="{
             zIndex: toggleImage ? -1 : 1,
-            background: 'rgba(255,255,0,0.5)',
-            border: '1px solid yellow',
+            background: 'yellow',
           }"
         >
           <template v-if="imageNumber === 1">
@@ -73,62 +72,34 @@
     <div
       @click="sideToggled = true"
       v-if="step > 0"
-      class="absolute rounded-full flexCenter animate__animated animate__zoomIn border-5px text-30px text-center border-black border-solid border-1px"
+      class="absolute bg-yellow rounded-full flexCenter transition-all duration-1000 animate__animated animate__zoomIn text-center"
       :style="{
         width: sideToggled ? '500px' : '100px',
         height: sideToggled ? '500px' : '100px',
         transform: sideToggled
           ? `rotate(180deg) translate(0, ${700}px)`
           : `rotate(180deg) translate(0, ${1000}px)`,
-        background: step === 4 ? 'transparent' : 'rgba(255,255,0,0.5)',
-        border: step === 4 ? 'transparent' : '1px solid yellow',
       }"
     >
-      <div v-show="!sideToggled" text-20px>Switch side</div>
-      <div v-show="sideToggled && step !== 4" class="flexCenter flex-col p-3">
-        <div v-if="step !== 3">
-          <h1 text-50px>{{ info.amount }}</h1>
-          <p class="p-5">{{ info.text }}</p>
-        </div>
-        <div v-else>
-          <h1 text-40px>{{ info.amount }}</h1>
-          <h1 text-40px>{{ info.amount2 }}</h1>
-          <p class="p-5">{{ info.text }}</p>
-        </div>
-      </div>
+      {{ !sideToggled ? "switch side" : step === 4 ? "" : infoText }}
       <div
-        class="relative rounded-full w-500px aspect-1 animate__animated animate__zoomIn mt--500px"
+        class="relative rounded-full w-500px aspect-1"
         v-show="sideToggled && step === 4"
+        @click="changeImage()"
       >
         <img
-          :src="`/info/${ecosystem.shortName.toLowerCase()}/${imageNumber}.jpg`"
-          class="rounded-full w-400px aspect-1"
-          @click="toggleImage = !toggleImage"
-          :style="{
-            zIndex: toggleImage ? 1 : -1,
-          }"
+          :src="`/BlueCarbon_${imageNumber}.jpg`"
+          class="rounded-full w-500px aspect-1"
         />
         <div
-          @click="changeImage()"
-          class="absolute w-full aspect-1 rounded-full mt--100px flexCenter flex-col border-black border-solid border-1px animate__animated animate__zoomIn"
-          :style="{
-            zIndex: toggleImage ? -1 : 1,
-            background: 'rgba(255,255,0,0.5)',
-            border: '1px solid yellow',
-          }"
+          class="absolute bg-yellow w-full aspect-1 rounded-full mt--100px flexCenter flex-col"
         >
-          <template v-if="imageNumber === 1">
-            <h1 class="font-bold">Conservation</h1>
-            <p class="p-5">
-              What Pete does can Esther too.<br />
-              What Pete does can Esther too.<br />
-              What Pete does can Esther too
-            </p>
-          </template>
-          <template v-else>
-            <h1 class="font-bold">Further infos</h1>
-            <img class="w-200px aspect-1 p-5" :src="qrcode" />
-          </template>
+          <h1 class="font-bold">Conservation</h1>
+          <p class="p-5">
+            What Pete does can Esther too.<br />
+            What Esther does can Esther too.<br />
+            What Pete does can Arlind too.
+          </p>
         </div>
       </div>
     </div>
@@ -155,7 +126,7 @@ const qrcode = useQR("https://neve.rsvp", {
 });
 
 const sideToggled = ref(false);
-const toggleImage = ref(true);
+const toggleImage = ref(false);
 const tokenImage = computed(() => {
   let string = `url("/ecosystems/${props.ecosystem.name.toLowerCase()}.jpeg")`;
   return string;
