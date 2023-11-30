@@ -30,12 +30,32 @@
       </div>
     </div>
     <!-- <div
+      v-for="n in 9"
+      v-show="data[n - 1].potential !== 200"
       class="text-16px text-white fixed left-0 top-0"
-      :style="{
-        transform: `translate(${500}px, ${500}px)`,
-      }"
     >
-      30 Gt Potential Storage Above Ground
+      <div
+        class="z-900"
+        v-show="ecosystems[n - 1].split"
+        :style="{
+          transform: `translate(calc(${
+            (windowWidth / 9) * n - windowWidth / 18
+          }px - 50%), calc(${ecosystems[n - 1].y}px - 50%))`,
+          mixBlendMode: 'difference',
+        }"
+      >
+        10 Gt Potential Storage Above Ground
+      </div>
+      <div
+        v-show="ecosystems[n - 1].split"
+        :style="{
+          transform: `translate(${
+            (windowWidth / 9) * n - windowWidth / 18
+          }px, ${ecosystems[n - 1].y + 300}px)`,
+        }"
+      >
+        20 Gt CO Storage Potential Below Ground
+      </div>
     </div> -->
     <svg
       id="mySvg"
@@ -224,7 +244,7 @@ const ecosystems = ref([]);
 
 const showParticleText = ref(false);
 const blendParticles = ref(true);
-const particleColor = ref("gray");
+const particleColor = ref("#ddd");
 const storageColor = ref("rgb(0, 50,0)");
 const aboveColor = ref("rgb(0, 90,0)");
 const belowColor = ref("rgb(0, 70,0)");
@@ -439,10 +459,10 @@ function showCurrent(index) {
 function showAboveBelow(index) {
   ecosystems.value[index].showAboveBelow = true;
   ecosystems.value[index].showPotential = false;
-  ecosystems.value[index].y = 700;
+  ecosystems.value[index].y = 500;
   setTimeout(() => {
     ecosystems.value[index].showCurrent = false;
-    ecosystems.value[index].y = 500;
+    ecosystems.value[index].y = 300;
     ecosystems.value[index].split = true;
   }, 3000);
 }
