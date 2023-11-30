@@ -29,34 +29,6 @@
         <label>Show border</label><input type="checkbox" v-model="showBorder" />
       </div>
     </div>
-    <!-- <div
-      v-for="n in 9"
-      v-show="data[n - 1].potential !== 200"
-      class="text-16px text-white fixed left-0 top-0"
-    >
-      <div
-        class="z-900"
-        v-show="ecosystems[n - 1].split"
-        :style="{
-          transform: `translate(calc(${
-            (windowWidth / 9) * n - windowWidth / 18
-          }px - 50%), calc(${ecosystems[n - 1].y}px - 50%))`,
-          mixBlendMode: 'difference',
-        }"
-      >
-        10 Gt Potential Storage Above Ground
-      </div>
-      <div
-        v-show="ecosystems[n - 1].split"
-        :style="{
-          transform: `translate(${
-            (windowWidth / 9) * n - windowWidth / 18
-          }px, ${ecosystems[n - 1].y + 300}px)`,
-        }"
-      >
-        20 Gt CO Storage Potential Below Ground
-      </div>
-    </div> -->
     <svg
       id="mySvg"
       :width="windowWidth + 'px'"
@@ -230,6 +202,35 @@
         v-show="showBorder"
         class="border-yellow border-solid border-1px w-3840px h-2160px"
       ></div>
+    </div>
+    <div
+      v-for="n in 9"
+      v-show="data[n - 1].potential !== 200"
+      class="text-16px text-white fixed left-0 top-0"
+    >
+      <div
+        class="z-900"
+        v-show="ecosystems[n - 1].split"
+        :style="{
+          transform: `translate(calc(${
+            (windowWidth / 9) * n - windowWidth / 18
+          }px - 50%), calc(${ecosystems[n - 1].y}px - 50%))`,
+          mixBlendMode: 'difference',
+        }"
+      >
+        10 Gt Potential Storage Above Ground
+      </div>
+      <div
+        v-show="ecosystems[n - 1].split"
+        :style="{
+          transform: `translate(calc(${
+            (windowWidth / 9) * n - windowWidth / 18
+          }px - 50%), calc(${ecosystems[n - 1].y + 175}px - 50%))`,
+          mixBlendMode: 'difference',
+        }"
+      >
+        20 Gt CO Storage Potential Below Ground
+      </div>
     </div>
   </div>
 </template>
@@ -462,7 +463,7 @@ function showAboveBelow(index) {
   ecosystems.value[index].y = 500;
   setTimeout(() => {
     ecosystems.value[index].showCurrent = false;
-    ecosystems.value[index].y = 300;
+    ecosystems.value[index].y = 250;
     ecosystems.value[index].split = true;
   }, 3000);
 }
